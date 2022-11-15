@@ -37,7 +37,7 @@ const productos = [
 ];
 
 //declaración del carrito
-let carrito = [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 //detalle de los productos
 productos.forEach((product) => {
@@ -67,6 +67,7 @@ productos.forEach((product) => {
                 cantidad: 1,
             });
             refreshCarrito();
+            saveLocal();
     })
 });
 
@@ -75,7 +76,8 @@ productos.forEach((product) => {
 function actualizarCantidad(index, cantidad){
     console.log("Actualizando carrito",carrito[index], cantidad)
     carrito[index].cantidad=cantidad
-    refreshCarrito()
+    refreshCarrito();
+    saveLocal();
 };
 
 //remover producto
@@ -84,6 +86,7 @@ function eliminarProducto(index){
     carrito.splice(index,1);
     console.log("despues de eliminar:", carrito)
     refreshCarrito();
+    saveLocal();
 };
 
 //mostrar carrito
@@ -113,5 +116,16 @@ function refreshCarrito(){
     }) 
     document.getElementById("cart-total-price").innerText=`$${total}`;
 };
+
+refreshCarrito ();
+
+//LocalStorage
+const saveLocal = () => {
+localStorage.setItem("carrito", JSON.stringify(carrito))
+};
+
+
+
+
 
 
